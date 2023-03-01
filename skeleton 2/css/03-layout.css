@@ -1,6 +1,5 @@
 .content {
-  display: flex;
-  flex-wrap: wrap;
+  position: relative;
   margin: 0 auto;
   background: #fff;
   width: 900px;
@@ -17,6 +16,7 @@
 }
 
 .content-main {
+  float: left;
   width: 620px;
   min-height: 200px;
   padding: 20px;
