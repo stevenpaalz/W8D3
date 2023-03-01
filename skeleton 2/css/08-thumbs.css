@@ -1,2 +1,22 @@
 /* PHASE 2: Thumbs */
 
+.profile-friends{
+    display: flex;
+    flex-wrap: wrap;
+
+
+}
+
+.thumb {
+   display: block;
+   position: relative;
+   width: 58px;
+   height: 58px;
+   
+
+}
+
+.profile-friends > li {
+    width: 60px;
+    
+}
