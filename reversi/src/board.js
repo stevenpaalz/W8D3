@@ -59,9 +59,7 @@ Board.prototype.getPiece = function (pos) {
   }
 };
 
-// b = new Board
-// console.log(b.getPiece([5, 5]).color)
-// console.log(b.getPiece([3, 4]).color)
+
 
 /**
  * Checks if the piece at a given position
@@ -100,33 +98,42 @@ Board.prototype.isOccupied = function (pos) {
  * Returns empty array if no pieces of the opposite color are found.
  */
 Board.prototype._positionsToFlip = function(pos, color, dir, piecesToFlip){
-  let a, b;
-  [a, b] = pos;
+  
+  // const newPos = pos.map((v, i) => {v+ dir[i]});
+  // let a, b;
+  let [x, y] = pos;
+  let [dx, dy] = dir;
+  let newPos = [x + dx, y + dy];
+  let [a,b] = newPos;
   
   if (!piecesToFlip) {
     piecesToFlip = [];
   };
+  // debugger
 
-  if(!this.isValidPos(pos)) {
+  if(!this.isValidPos(newPos)) {
+    return [];
+  }
+  if (!this.isOccupied(newPos)) {
     return [];
   }
   
-  if (!this.isOccupied(pos)) {
-    return [];
-  }
-
   if(this.grid[a][b].color === color) {
     return piecesToFlip;
   }
 
   if (this.grid[a][b].color !== color) {
-    piecesToFlip.push(pos); 
-    const newPosition = pos.map((v, i) => {v+ dir[i]});
-    this._positionsToFlip(newPosition, color, dir, piecesToFlip);
+    piecesToFlip.push(newPos); 
+    
+    return this._positionsToFlip(newPos, color, dir, piecesToFlip);
   }
 
 
 };
+
+// b = new Board
+// console.log(b.isOccupied([5, 5]))
+// console.log(b.isOccupied([3, 4]))
 
 /**
  * Checks that a position is not already occupied and that the color
