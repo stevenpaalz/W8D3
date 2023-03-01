@@ -206,7 +206,7 @@ Board.prototype.placePiece = function (pos, color) {
 Board.prototype.validMoves = function (color) {
   const newArr = [];
   for (i = 0; i < this.grid.length - 1; i++) {
-    for (j = 0; j < this.grid.length; j++) {
+    for (j = 0; j < this.grid.length-1; j++) {
         const pos = [i, j];
         if (this.validMove(pos, color)) {
           
@@ -222,6 +222,13 @@ Board.prototype.validMoves = function (color) {
  * Checks if there are any valid moves for the given color.
  */
 Board.prototype.hasMove = function (color) {
+  if(this.validMoves(color).length === 0){
+    return false;
+  }
+
+  else{
+    return true;
+  }
 };
 
 
@@ -231,6 +238,12 @@ Board.prototype.hasMove = function (color) {
  * the black player are out of moves.
  */
 Board.prototype.isOver = function () {
+  if(!this.hasMove("white") && !this.hasMove("black")) {
+    return true;
+  }
+  else{
+    return false;
+  }
 };
 
 
