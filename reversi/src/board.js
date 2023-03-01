@@ -46,7 +46,6 @@ Board.prototype.isValidPos = function (pos) {
  * throwing an Error if the position is invalid.
  */
 Board.prototype.getPiece = function (pos) {
-  debugger
   let a, b;
   [a, b] = pos;
   if (this.isValidPos(pos)) {
@@ -101,29 +100,30 @@ Board.prototype.isOccupied = function (pos) {
  * Returns empty array if no pieces of the opposite color are found.
  */
 Board.prototype._positionsToFlip = function(pos, color, dir, piecesToFlip){
-  
   let a, b;
   [a, b] = pos;
+  
+  if (!piecesToFlip) {
+    piecesToFlip = [];
+  };
 
+  if(!this.isValidPos(pos)) {
+    return [];
+  }
+  
   if (!this.isOccupied(pos)) {
     return [];
   }
 
-  else if(!this.isValidPos(pos)) {
-    return [];
-  }
-
-  else if(this.grid[a][b].color === color) {
+  if(this.grid[a][b].color === color) {
     return piecesToFlip;
   }
 
-  else{
+  if (this.grid[a][b].color !== color) {
     piecesToFlip.push(pos); 
+    const newPosition = pos.map((v, i) => {v+ dir[i]});
+    this._positionsToFlip(newPosition, color, dir, piecesToFlip);
   }
-
-  const newPosition = pos.map((v, i) => {v+ dir[i]});
-
-  this._positionsToFlip(newPosition, color, dir, piecesToFlip);
 
 
 };
