@@ -37,7 +37,7 @@ Board.DIRS = [
 Board.prototype.isValidPos = function (pos) {
     let a, b;
     [a, b] = pos
-    if (a > 8 || b > 8 || a < 0 || b < 0) {return false;}
+    if (a > 7 || b > 7 || a < 0 || b < 0) {return false;}
     else {return true;}
 };
 
@@ -205,8 +205,8 @@ Board.prototype.placePiece = function (pos, color) {
  */
 Board.prototype.validMoves = function (color) {
   const newArr = [];
-  for (i = 0; i < this.grid.length - 1; i++) {
-    for (j = 0; j < this.grid.length-1; j++) {
+  for (i = 0; i < this.grid.length; i++) {
+    for (j = 0; j < this.grid.length; j++) {
         const pos = [i, j];
         if (this.validMove(pos, color)) {
           
