@@ -141,7 +141,10 @@ Board.prototype._positionsToFlip = function(pos, color, dir, piecesToFlip){
  * color being flipped.
  */
 Board.prototype.validMove = function (pos, color) {
-  
+  if(!this.isValidPos(pos)) {
+    return false;
+  }
+
   if(this.isOccupied(pos)) {
     return false;
   }
@@ -149,8 +152,12 @@ Board.prototype.validMove = function (pos, color) {
   const down = this._positionsToFlip(pos, color, [0,-1]); 
   const right = this._positionsToFlip(pos, color, [1,0]); 
   const left = this._positionsToFlip(pos, color, [-1,0]);
+  const diagupright = this._positionsToFlip(pos, color, [1,1]);
+  const diagdownright = this._positionsToFlip(pos, color, [1,-1]);
+  const diagupleft = this._positionsToFlip(pos, color, [-1,1]);
+  const diagdownleft = this._positionsToFlip(pos, color, [-1,-1]);
   
-  const moves = up.concat(down, right, left);
+  const moves = up.concat(down, right, left, diagdownleft, diagdownright, diagupleft, diagupright);
   if(moves.length === 0) {
     return false;
   }
@@ -177,8 +184,13 @@ Board.prototype.placePiece = function (pos, color) {
   const down = this._positionsToFlip(pos, color, [0,-1]); 
   const right = this._positionsToFlip(pos, color, [1,0]); 
   const left = this._positionsToFlip(pos, color, [-1,0]);
+  const diagupright = this._positionsToFlip(pos, color, [1,1]);
+  const diagdownright = this._positionsToFlip(pos, color, [1,-1]);
+  const diagupleft = this._positionsToFlip(pos, color, [-1,1]);
+  const diagdownleft = this._positionsToFlip(pos, color, [-1,-1]);
+
   
-  const moves = up.concat(down, right, left);
+  const moves = up.concat(down, right, left, diagdownleft, diagdownright, diagupleft, diagupright);
   let [a,b] = pos;
   this.grid[a][b] = new Piece(color);
   
@@ -192,7 +204,18 @@ Board.prototype.placePiece = function (pos, color) {
  * the Board for a given color.
  */
 Board.prototype.validMoves = function (color) {
-  
+  const newArr = [];
+  for (i = 0; i < this.grid.length - 1; i++) {
+    for (j = 0; j < this.grid.length; j++) {
+        const pos = [i, j];
+        if (this.validMove(pos, color)) {
+          
+
+          newArr.push(pos);
+        }
+      }
+    }
+  return newArr;
 };
 
 /**
